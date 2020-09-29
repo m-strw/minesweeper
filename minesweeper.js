@@ -2,10 +2,105 @@ document.addEventListener('DOMContentLoaded', startGame)
 
 // Define your `board` object here!
 
-var board = 
+var board = {
+  cells: [
+    {
+      row: 0, 
+      col: 0,
+      isMine: false,
+      isMarked: false,
+      hidden: true,
+      surroundingMines: [],
+    },
+    {
+      row: 1,
+      col: 0,
+      isMine: false,
+      isMarked: false,
+      hidden: true,
+      surroundingMines: [], 
+    },
+    {
+      row: 2,
+      col: 0,
+      isMine: false,
+      isMarked: false,
+      hidden: true,
+      surroundingMines: [],
+    },
+    {
+      row: 0,
+      col: 1,
+      isMine: false,
+      isMarked: false,
+      hidden: true,
+      surroundingMines: [],
+    },
+    {
+      row: 1,
+      col: 1,
+      isMine: false,
+      isMarked: false,
+      hidden: true,
+      surroundingMines: [],
+    },
+    {
+      row: 2,
+      col: 1,
+      isMine: false,
+      isMarked: false,
+      hidden: true,
+      surroundingMines: [],
+    },
+    {
+      row: 0,
+      col: 2,
+      isMine: false,
+      isMarked: false,
+      hidden: true,
+      surroundingMines: [],
+    },
+    {
+      row: 1,
+      col: 2,
+      isMine: false,
+      isMarked: false,
+      hidden: true,
+      surroundingMines: [],
+    },
+    {
+      row: 2,
+      col: 2,
+      isMine: false,
+      isMarked: false,
+      hidden: true,
+      surroundingMines: [],
+    }, 
+  ],
+
+}
+
+
 
 function startGame () {
   // Don't remove this function call: it makes the game work!
+  
+  // push countSurrounding mines function to the object made up of arry's 
+
+function countSurroundingMines (cell){
+  var surrounding = lib.getSurroundingCells(cell.row,cell.col);
+
+  for(var i = 0; i < surrounding.length; i++){
+    if (cell[i].isMine == true){
+      return surrounding++;
+    }
+  }
+  console.log(board)
+}
+
+
+ 
+
   lib.initBoard()
 }
 
