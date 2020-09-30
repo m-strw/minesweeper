@@ -1,128 +1,75 @@
 document.addEventListener('DOMContentLoaded', startGame)
 
 // Define your `board` object here!
+// This was my second attempted at writting this section, big change this seems better as I can change the number of cells on the board with more ese if needed. 
 
-var board = {
-  cells: [
-    {
-      row: 0, 
-      col: 0,
-      isMine: false,
-      isMarked: false,
-      hidden: true,
-      surroundingMines: [],
-    },
-    {
-      row: 1,
-      col: 0,
-      isMine: false,
-      isMarked: false,
-      hidden: true,
-      surroundingMines: [], 
-    },
-    {
-      row: 2,
-      col: 0,
-      isMine: false,
-      isMarked: false,
-      hidden: true,
-      surroundingMines: [],
-    },
-    {
-      row: 0,
-      col: 1,
-      isMine: false,
-      isMarked: false,
-      hidden: true,
-      surroundingMines: [],
-    },
-    {
-      row: 1,
-      col: 1,
-      isMine: false,
-      isMarked: false,
-      hidden: true,
-      surroundingMines: [],
-    },
-    {
-      row: 2,
-      col: 1,
-      isMine: false,
-      isMarked: false,
-      hidden: true,
-      surroundingMines: [],
-    },
-    {
-      row: 0,
-      col: 2,
-      isMine: false,
-      isMarked: false,
-      hidden: true,
-      surroundingMines: [],
-    },
-    {
-      row: 1,
-      col: 2,
-      isMine: false,
-      isMarked: false,
-      hidden: true,
-      surroundingMines: [],
-    },
-    {
-      row: 2,
-      col: 2,
-      isMine: false,
-      isMarked: false,
-      hidden: true,
-      surroundingMines: [],
-    }, 
-  ],
+var board = {cells: []}
+let size = 4
+let difficulty = 0.3
 
-}
-
-
-
-function startGame () {
-  // Don't remove this function call: it makes the game work!
-  
-  // push countSurrounding mines function to the object made up of arry's 
-
-function countSurroundingMines (cell){
-  var surrounding = lib.getSurroundingCells(cell.row,cell.col);
-
-  for(var i = 0; i < surrounding.length; i++){
-    if (cell[i].isMine == true){
-      return surrounding++;
+function createBoard () {
+  document.querySelector(".board").innerHtml = " "
+  for (i =0; i < size; i++) {
+    for (j =0; j < size; j++) {
+      board.cells.push({
+        row: i,
+        col: j,
+        hidden: true,
+        isMine: Math.random() < difficulty
+      })
     }
   }
-  console.log(board)
 }
 
+// Board Restfuction bring the board back to first stage of the board funcation 
 
- 
+function resetBoard (){
+  document.querySelector(".board").innerHTML = " ";
+  board = {cells:[]}
+  startGame()
+}
 
+function startGame () {
+  createBoard();
   lib.initBoard()
+  for (i = 0; i < board.cells.length; i++) {
+    board.cells[i].surroundingMines = countSurroundingMines(board.cells[i])
+  }
+  document.addEventListener('click', checkForWin)
+  document.addEventListener('contextmenu', checkForWin)
 }
 
-// Define this function to look for a win condition:
-//
-// 1. Are all of the cells that are NOT mines visible?
-// 2. Are all of the mines marked?
+// Define this function to look for a win condition
+
+
+// ensure that all of the cells that are not mines visible.
+
+// Not all cells are mines. 
+
 function checkForWin () {
-
-  // You can use this function call to declare a winner (once you've
-  // detected that they've won, that is!)
-  //   lib.displayMessage('You win!')
+  for (i = 0; i < board.cells.length; i++) {
+  if (board.cells.isMine === true && board.cells.isMarked === true) {
+    return lib.displayMessage('yay, you win!')
+    } else if (board.cells.isMine === true && board.cells.isMarked !== true) {
+      return
+    } else if (board.cells.isMine !== true && board.cells.isMarked === true) {
+      return
+    }
+  }
 }
 
-// Define this function to count the number of mines around the cell
-// (there could be as many as 8). You don't have to get the surrounding
-// cells yourself! Just use `lib.getSurroundingCells`: 
-//
-//   var surrounding = lib.getSurroundingCells(cell.row, cell.col)
-//
-// It will return cell objects in an array. You should loop through 
-// them, counting the number of times `cell.isMine` is true.
+// function count the number of mines around the cell.
+
+
+// intention to return cell objects as a array. then, Calculate amount `cell.isMine` when it is true.
+
 function countSurroundingMines (cell) {
+  var surroundingCells = lib.getSurroundingCells(cell.row, cell.col)
+  let mineCount = 0
+    surroundingCells.forEach(surCell => { 
+    if (surCell.isMine === true) {
+      mineCount++;
+    }
+  })
+  return mineCount
 }
-
